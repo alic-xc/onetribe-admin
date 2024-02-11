@@ -1,0 +1,13 @@
+{
+  "folders": [
+	{
+		"path": "."
+	},
+	{
+		"path": "../one-tribe"
+	},
+	{
+		"path": "../ontribe-admin-storybook"
+	}
+]
+}
