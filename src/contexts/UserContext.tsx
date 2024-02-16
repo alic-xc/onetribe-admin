@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { useGetMyAccountQuery } from "../services/userAPI";
 
-
-
-const UserContext = React.createContext();
+const UserContext = React.createContext(object);
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
@@ -11,7 +9,6 @@ export const UserProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const {
     data: userInfo,
-    error,
     isError,
     isLoading,
     refetch,

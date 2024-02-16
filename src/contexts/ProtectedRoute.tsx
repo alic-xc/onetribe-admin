@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
-import { useGetUserQuery } from "../services/userAPI";
 import OverlayCustomLoader from "./OverlayCustomLoader";
 
 const ProtectedRoute = ({ children }) => {
