@@ -187,7 +187,7 @@ const Index = () => {
               ))}
             </Stack>
           </Grid>
-          <Grid item lg={12} md={12}>
+          <Grid item lg={12} md={12} p={1}>
             <Card
               title={
                 <Typography fontWeight={500} fontSize={16}>

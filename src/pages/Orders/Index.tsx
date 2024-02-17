@@ -1,13 +1,11 @@
 import React from "react";
 import { Box, Grid, Stack, SxProps, Typography } from "@mui/material";
-import {
-  Button,
-  PageTitle,
-  Widget,
-} from "ontribe-admin-storybook";
+import { Button, PageTitle, Widget } from "ontribe-admin-storybook";
 import {
   Add,
   Bag2,
+  BagCross,
+  BagCross1,
   BoxAdd,
   Money,
   ShoppingCart,
@@ -30,7 +28,7 @@ const Index = () => {
   const primaryWidgets: Item[] = [
     {
       containerSx: containerSx,
-      icon: <Money size="20" color="black" variant="Outline" />,
+      icon: <BoxAdd size="20" color="black" variant="Outline" />,
       items: [
         { title: "All Orders", value: "0", secondaryValue: "" },
         { title: "Pending", value: "0", secondaryValue: "" },
@@ -48,7 +46,7 @@ const Index = () => {
     },
     {
       containerSx: containerSx,
-      icon: <ShoppingCart size="20" color="black" variant="Outline" />,
+      icon: <BagCross1 size="20" color="black" variant="Outline" />,
       items: [
         { title: "Abandoned Cart", value: "0", secondaryValue: "" },
         { title: "Customers", value: "0", secondaryValue: "" },

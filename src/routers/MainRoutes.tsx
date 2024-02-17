@@ -4,6 +4,7 @@ import Loadable from "../components/Loadable";
 
 const Dashboard = Loadable(lazy(() => import("../pages/Dashboard/Index")));
 const Orders = Loadable(lazy(() => import("../pages/Orders/Index")));
+const OrderDetails = Loadable(lazy(() => import("../pages/Orders/Details")));
 const Customers = Loadable(lazy(() => import("../pages/Customers/Index")));
 const CustomerDetails = Loadable(
   lazy(() => import("../pages/Customers/Index"))
@@ -30,6 +31,10 @@ const MainRoutes = {
         {
           path: "orders",
           element: <Orders />,
+        },
+        {
+          path: "order/:orderid",
+          element: <OrderDetails />,
         },
         {
           path: "category",
