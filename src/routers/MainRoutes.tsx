@@ -7,14 +7,16 @@ const Orders = Loadable(lazy(() => import("../pages/Orders/Index")));
 const OrderDetails = Loadable(lazy(() => import("../pages/Orders/Details")));
 const Customers = Loadable(lazy(() => import("../pages/Customers/Index")));
 const CustomerDetails = Loadable(
-  lazy(() => import("../pages/Customers/Index"))
+  lazy(() => import("../pages/Customers/Details"))
 );
 const Category = Loadable(lazy(() => import("../pages/Category/Index")));
 const SubCategory = Loadable(
   lazy(() => import("../pages/Category/SubCategory"))
 );
 const Product = Loadable(lazy(() => import("../pages/Products/Index")));
-const ProductDetails = Loadable(lazy(() => import("../pages/Products/Index")));
+const ProductDetails = Loadable(
+  lazy(() => import("../pages/Products/Details"))
+);
 const CreateProduct = Loadable(lazy(() => import("../pages/Products/Create")));
 
 const MainRoutes = {
@@ -27,6 +29,7 @@ const MainRoutes = {
         {
           path: "dashboard",
           element: <Dashboard />,
+          key: "dashboard",
         },
         {
           path: "orders",
@@ -49,7 +52,7 @@ const MainRoutes = {
           element: <Customers />,
         },
         {
-          path: "customer/details/:customerId",
+          path: "customer/:customerId",
           element: <CustomerDetails />,
         },
         {
@@ -61,61 +64,11 @@ const MainRoutes = {
           element: <CreateProduct />,
         },
         {
-          path: "product/details/:productId",
+          path: "product/:productId",
           element: <ProductDetails />,
         },
       ],
     },
-    // {
-    //   path: "orders",
-    //   element: <Layout />,
-    //   children: [
-    //     {
-    //       path: "dashboard",
-    //       element: <Dashboard />,
-    //     },
-    //   ],
-    // },
-    // {
-    //   path: "products",
-    //   element: <Layout />,
-    //   children: [
-    //     {
-    //       path: "dashboard",
-    //       element: <Dashboard />,
-    //     },
-    //   ],
-    // },
-    // {
-    //   path: "customers",
-    //   element: <Layout />,
-    //   children: [
-    //     {
-    //       path: "dashboard",
-    //       element: <Dashboard />,
-    //     },
-    //   ],
-    // },
-    // {
-    //   path: "category",
-    //   element: <Layout />,
-    //   children: [
-    //     {
-    //       path: "dashboard",
-    //       element: <Dashboard />,
-    //     },
-    //   ],
-    // },
-    // {
-    //   path: "settings",
-    //   element: <Layout />,
-    //   children: [
-    //     {
-    //       path: "dashboard",
-    //       element: <Dashboard />,
-    //     },
-    //   ],
-    // },
   ],
 };
 

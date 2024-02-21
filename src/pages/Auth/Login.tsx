@@ -11,7 +11,7 @@ const Login = () => {
         m: 0,
         width: "100%",
         height: "100vh",
-        backgroundColor: "red",
+        backgroundColor: "#F4F5FA",
       }}
     >
       <Stack

@@ -9,10 +9,12 @@ import { MENU_ITEMS } from "../utils/constants";
 import React from "react";
 import { Typography } from "@mui/material";
 import { ArrowDown2 } from "iconsax-react";
+import { useLocation } from "react-router-dom";
 
 const Layout = () => {
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const [open] = React.useState(true);
+  const location = useLocation();
   const Btn = (
     <Button
       sx={{
@@ -35,7 +37,10 @@ const Layout = () => {
       <ArrowDown2 size="20" color="black" />{" "}
     </Button>
   );
-  const header = <Header title="Dashboard" open={open} customBtn={Btn} />;
+  const urlName = location.pathname.split("/");
+  const header = (
+    <Header title={String(urlName[1])} open={open} customBtn={Btn} />
+  );
   const drawer = <Drawer menuItems={MENU_ITEMS} isOpen={open} />;
 
   return (

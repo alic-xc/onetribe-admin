@@ -10,6 +10,7 @@ import {
   Money,
   ShoppingCart,
 } from "iconsax-react";
+import { useNavigate } from "react-router-dom";
 
 interface Item {
   containerSx: SxProps;
@@ -25,6 +26,7 @@ type Items = {
 
 const Index = () => {
   const containerSx: SxProps = { border: "none" };
+  const navigate = useNavigate();
   const primaryWidgets: Item[] = [
     {
       containerSx: containerSx,
@@ -64,6 +66,7 @@ const Index = () => {
               variant="contained"
               color="primary"
               startIcon={<Add color="white" variant="Outline" />}
+              onClick={() => navigate("/product/create")}
             >
               Add a New Product
             </Button>

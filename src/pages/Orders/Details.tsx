@@ -1,12 +1,21 @@
 import React from "react";
-import { Box, Grid, Stack, SxProps, Typography } from "@mui/material";
-import { Button, PageTitle, Widget } from "ontribe-admin-storybook";
-import { Add, Bag2, BagCross1, BoxAdd } from "iconsax-react";
+import {
+  Box,
+  Grid,
+  GridProps,
+  Stack,
+  SxProps,
+  Typography,
+} from "@mui/material";
+import { Button, PageTitle, ProfileWidget } from "ontribe-admin-storybook";
+import { Add, Bag2, BagCross1, BoxAdd, Card, Location } from "iconsax-react";
 
 interface Item {
   containerSx: SxProps;
   icon: React.ReactNode;
   items: Items[];
+  text?: React.ReactNode;
+  gridStyles?: GridProps;
 }
 
 type Items = {
@@ -17,59 +26,136 @@ type Items = {
 
 const Details = () => {
   const containerSx: SxProps = { border: "none" };
-  
+
   const primaryWidgets: Item[] = [
     {
       containerSx: containerSx,
+      gridStyles: {
+        lg: 4,
+        md: 4,
+      },
       icon: <BoxAdd size="20" color="black" variant="Outline" />,
+      text: (
+        <Stack>
+          <Typography fontSize={14}>Janet Adebayo</Typography>
+          <Typography fontSize={12}>Customer since 12 sept 2023</Typography>
+        </Stack>
+      ),
       items: [
-        { title: "All Orders", value: "0", secondaryValue: "" },
-        { title: "Pending", value: "0", secondaryValue: "" },
-        { title: "Completed", value: "0", secondaryValue: "" },
+        { title: "Phone", value: "+234902343422" },
+        { title: "Email", value: "user@gmail.com" },
       ],
     },
     {
       containerSx: containerSx,
-      icon: <BoxAdd size="20" color="black" variant="Outline" />,
+      gridStyles: {
+        lg: 5,
+        md: 5,
+      },
+      icon: <Location size="20" color="black" variant="Outline" />,
       items: [
-        { title: "Canceled", value: "0", secondaryValue: "" },
-        { title: "Returned", value: "0", secondaryValue: "" },
-        { title: "Damaged", value: "0", secondaryValue: "" },
+        {
+          title: "Home Address",
+          value: "No. 15 Adekunle Street, Yaba, Lagos State",
+          secondaryValue: "",
+        },
+        {
+          title: "Biling Address",
+          value: "No. 15 Adekunle Street, Yaba, Lagos State",
+          secondaryValue: "",
+        },
       ],
     },
     {
       containerSx: containerSx,
-      icon: <BagCross1 size="20" color="black" variant="Outline" />,
+      gridStyles: {
+        lg: 3,
+        md: 3,
+      },
+      icon: <Card size="20" color="black" variant="Outline" />,
       items: [
-        { title: "Abandoned Cart", value: "0", secondaryValue: "" },
-        { title: "Customers", value: "0", secondaryValue: "" },
+        { title: "Payment Method", value: "Mastercard", secondaryValue: "" },
+        {
+          title: "Delivery Method",
+          value: "Home Delivery",
+          secondaryValue: "",
+        },
       ],
     },
   ];
 
+  const title = (
+    <Stack direction="row" justifyContent="flex-start" spacing={3}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={2}
+      >
+        <Typography fontSize={16} fontWeight={500}>
+          Order Number
+        </Typography>
+        <Typography>#743648</Typography>
+      </Stack>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={2}
+      >
+        <Typography fontSize={16} fontWeight={500}>
+          Order Date
+        </Typography>
+        <Typography>20 May 2023 - 12:55 pm</Typography>
+      </Stack>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={2}
+      >
+        <Typography fontSize={16} fontWeight={500}>
+          Tracking ID
+        </Typography>
+        <Typography>9348fjr73</Typography>{" "}
+      </Stack>
+    </Stack>
+  );
+
+  const actions = (
+    <Stack
+      direction="row"
+      justifyContent="space-between"
+      alignItems="center"
+      spacing={1}
+    >
+      <Button
+        variant="contained"
+        color="primary"
+        sx={{ py: 0.5, px: 3 }}
+        startIcon={<Add color="white" variant="Outline" />}
+      >
+        Mark as complete
+      </Button>
+      <Button variant="contained" color="error" sx={{ py: 0.7, px: 3 }}>
+        Cancel Order
+      </Button>
+    </Stack>
+  );
+
   return (
     <Grid container my={5}>
       <Grid item lg={12} md={12} p={1}>
-        <PageTitle
-          firstComponent={<Typography>Order Summary</Typography>}
-          secondComponent={
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Add color="white" variant="Outline" />}
-            >
-              Add a New Product
-            </Button>
-          }
-        />
+        <PageTitle firstComponent={title} secondComponent={actions} />
       </Grid>
       {primaryWidgets.map((item) => (
-        <Grid item lg={4} md={4} p={1}>
+        <Grid item {...item.gridStyles} p={1}>
           {" "}
-          <Widget
+          <ProfileWidget
             icon={item.icon}
             containerSx={item.containerSx}
             items={item.items}
+            text={item?.text}
           />{" "}
         </Grid>
       ))}
