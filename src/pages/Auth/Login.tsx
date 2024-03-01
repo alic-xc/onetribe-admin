@@ -80,7 +80,6 @@ const Login = () => {
               } catch (err: any) {
                 const msg =
                   "Fail to login because of this reason:" + err.message;
-                console.log(msg);
               }
             }}
           >
