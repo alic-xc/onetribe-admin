@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { useGetMyAccountQuery } from "../services/userAPI";
 
-const UserContext = React.createContext(object);
+interface UserProviderProps {
+  children: React.ReactNode;
+}
 
-export const UserProvider = ({ children }) => {
+const UserContext = React.createContext({});
+
+export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -12,7 +16,7 @@ export const UserProvider = ({ children }) => {
     isError,
     isLoading,
     refetch,
-  } = useGetMyAccountQuery();
+  } = useGetMyAccountQuery({});
   React.useEffect(() => {
     if (!isLoading && !isError) {
       setUser(userInfo);

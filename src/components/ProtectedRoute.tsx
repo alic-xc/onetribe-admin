@@ -3,12 +3,16 @@ import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 import OverlayCustomLoader from "./OverlayCustomLoader";
 
-const ProtectedRoute = ({ children }) => {
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+}
+
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isAuthenticated, loading } = React.useContext(UserContext);
   const navigate = useNavigate();
 
   if (!isAuthenticated && !loading) {
-    navigate("/login?error=unauthenticated");
+    navigate("/account/login?error=unauthenticated");
   }
 
   if (loading) {

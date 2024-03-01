@@ -2,8 +2,17 @@ import { Box, Stack, Typography } from "@mui/material";
 import Logo from "../../assets/images/logo.svg";
 import { Form, Formik } from "formik";
 import { Button, TextInput } from "ontribe-admin-storybook";
+import { LoginSchema } from "../../schemas/AuthSchema";
+import { useLoginMutation } from "../../services/authenticationAPI";
+import UserContext from "../../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const Login = () => {
+  const [login] = useLoginMutation();
+  const { refetch } = React.useContext(UserContext);
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -42,29 +51,62 @@ const Login = () => {
           </Typography>
           <Formik
             initialValues={{
-              name: "",
+              email: "",
+              password: "",
             }}
-            onSubmit={(values) => console.log(values)}
+            validationSchema={LoginSchema}
+            onSubmit={(values, { setSubmitting }) => {
+              try {
+                // highlight-next-line
+                const data = {
+                  username: values.email,
+                  password: values.password,
+                };
+
+                const response = login(data).unwrap();
+                response.then((res) => {
+                  console.log(res);
+                  localStorage.removeItem("access");
+                  localStorage.setItem("access", res.access);
+                  refetch();
+                  navigate("/");
+                });
+                response.catch((err) => {
+                  console.log(err);
+                });
+                response.finally(() => {
+                  setTimeout(() => setSubmitting(false), 3000);
+                });
+              } catch (err: any) {
+                const msg =
+                  "Fail to login because of this reason:" + err.message;
+                console.log(msg);
+              }
+            }}
           >
-            {({ isSubmitting, isValid }) => (
+            {({ isSubmitting, values, handleChange }) => (
               <Form style={{ width: "90%" }}>
                 <Stack my={6} direction="column" spacing={2}>
                   <TextInput
-                    name="name"
+                    name="email"
                     placeholder="Email"
                     size="small"
-                    value=""
+                    value={values.email}
+                    onChange={handleChange}
                   />
                   <TextInput
-                    name="name"
+                    name="password"
                     placeholder="Password"
                     size="small"
-                    value=""
+                    value={values.password}
+                    onChange={handleChange}
                   />
                   <Typography>Forgotten Password</Typography>
                   <Button
                     variant="contained"
                     color="primary"
+                    type="submit"
+                    disabled={isSubmitting}
                     sx={{ padding: 2, fontSize: 16, borderRadius: 10 }}
                   >
                     Access Store
