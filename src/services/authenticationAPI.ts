@@ -7,21 +7,28 @@ export const authenticationAPI = createApi({
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: (builder) => ({
     login: builder.mutation({
-      query: (initialLogin) => ({
+      query: (data) => ({
         url: "auth/login",
         method: "POST",
-        body: initialLogin,
+        body: data,
+      }),
+    }),
+    getAccessToken: builder.mutation({
+      query: (data) => ({
+        url: "auth/refresh-token",
+        method: "POST",
+        body: data,
       }),
     }),
     requestPassword: builder.mutation({
-      query: (initial) => ({
+      query: (data) => ({
         url: "auth/password/forgot/",
         method: "POST",
-        body: initial,
+        body: data,
       }),
     }),
   }),
 });
 
-export const { useLoginMutation, useRequestPasswordMutation } =
+export const { useLoginMutation, useRequestPasswordMutation, useGetAccessTokenMutation } =
   authenticationAPI;

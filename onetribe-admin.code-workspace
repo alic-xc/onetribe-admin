@@ -1,13 +1,10 @@
 {
   "folders": [
-	{
-		"path": "."
-	},
-	{
-		"path": "../one-tribe"
-	},
-	{
-		"path": "../ontribe-admin-storybook"
-	}
-]
+    {
+      "path": "../ontribe-admin-storybook"
+    },
+    {
+      "path": "."
+    }
+  ]
 }

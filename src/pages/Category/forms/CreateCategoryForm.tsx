@@ -1,10 +1,13 @@
-import { Divider, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import { Form, Formik } from "formik";
 import { Button, TextInput } from "ontribe-admin-storybook";
 import { CategorySchema } from "../../../schemas/CategorySchema";
 import { useCreateCategoryMutation } from "../../../services/productAPI";
 
-const CreateCategoryForm = () => {
+interface CreateCategoryFormProps {
+  callback?: () => void;
+}
+const CreateCategoryForm = (props: CreateCategoryFormProps) => {
   const [createCategory] = useCreateCategoryMutation();
   return (
     <Formik
@@ -20,6 +23,7 @@ const CreateCategoryForm = () => {
           const response = createCategory(data).unwrap();
           response.then((res) => {
             console.log(res);
+            props.callback && props.callback();
           });
           response.catch((err) => {
             console.log(err);

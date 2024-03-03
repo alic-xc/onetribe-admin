@@ -10,11 +10,54 @@ import React from "react";
 import { Typography } from "@mui/material";
 import { ArrowDown2 } from "iconsax-react";
 import { useLocation } from "react-router-dom";
+import { useGetAccessTokenMutation } from "../services/authenticationAPI";
+
+interface AccessTokenResponse {
+  status: string;
+  message: string;
+  data: {
+    accessToken: string;
+  };
+}
 
 const Layout = () => {
+  const [accessToken, setAccessToken] = React.useState<string>("");
+  const [requestAccessToken] = useGetAccessTokenMutation();
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const [open] = React.useState(true);
   const location = useLocation();
+
+  const getAccessTokenHandler = () => {
+    const payload = {
+      refreshToken: localStorage.getItem("refresh"),
+    };
+    const response = requestAccessToken(payload).unwrap();
+    response.then((data: AccessTokenResponse) => {
+      localStorage.setItem("access", data.data.accessToken);
+      localStorage.setItem("timestamp", String(Date.now()));
+      localStorage.setItem("expires", "300");
+      setAccessToken(data.data.accessToken);
+    });
+    response.catch();
+    response.finally();
+  };
+
+  React.useEffect(() => {
+    const currentTimeStamp = Date.now();
+    const initialTimeStamp = localStorage.getItem("timestamp");
+    const totalSecondsLeft = currentTimeStamp - Number(initialTimeStamp);
+    const totalSecondsExpiry = localStorage.getItem("expires");
+    if (totalSecondsLeft >= Number(totalSecondsExpiry)) {
+      getAccessTokenHandler();
+    } else {
+      const timeout = setTimeout(
+        () => getAccessTokenHandler(),
+        totalSecondsLeft
+      );
+      return () => clearTimeout(timeout);
+    }
+  }, [accessToken]);
+
   const Btn = (
     <Button
       sx={{
@@ -37,6 +80,7 @@ const Layout = () => {
       <ArrowDown2 size="20" color="black" />{" "}
     </Button>
   );
+
   const urlName = location.pathname.split("/");
   const header = (
     <Header title={String(urlName[1])} open={open} customBtn={Btn} />

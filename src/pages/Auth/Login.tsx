@@ -66,9 +66,13 @@ const Login = () => {
                 const response = login(data).unwrap();
                 response.then((res) => {
                   const data: IAdmin = res.data;
+                  console.log(data);
                   if (data.role === "admin") {
                     localStorage.removeItem("access");
                     localStorage.setItem("access", data.accessToken);
+                    localStorage.setItem("refresh", data.refreshToken);
+                    localStorage.setItem("timestamp", String(Date.now()));
+                    localStorage.setItem("expires", "300");
                     refetch();
                     navigate("/dashboard");
                   }

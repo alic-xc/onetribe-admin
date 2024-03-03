@@ -13,12 +13,12 @@ export const productAPI = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getCategories: builder.query({ query: () => "users/me" }),
+    getCategories: builder.query({ query: () => "fashorg/categories" }),
     getSubCategories: builder.query({ query: () => "users/" }),
     createCategory: builder.mutation({
       query: (initial) => ({
-        url: `password/change`,
-        method: "PATCH",
+        url: `fashorg/categories/`,
+        method: "POST",
         body: initial,
       }),
     }),
