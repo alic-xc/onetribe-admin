@@ -13,22 +13,8 @@ export const userAPI = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getNonFreeSubscription: builder.query({ query: () => "subscriptions/" }),
-    getMyAccount: builder.query({ query: () => "user/me" }),
-    getUser: builder.query({ query: () => "users/" }),
-    getCountry: builder.query({ query: () => "countries/" }),
-    getState: builder.query({
-      query: (countryId) => `state/?country=${countryId}`,
-    }),
-    getBank: builder.query({ query: () => "banks/" }),
-    getUserBank: builder.query({ query: () => "user_banks/" }),
-    updateUser: builder.mutation({
-      query: (initial) => ({
-        url: `users/${initial.object_id}/`,
-        method: "PATCH",
-        body: initial,
-      }),
-    }),
+    getMyAccount: builder.query({ query: () => "users/me" }),
+    getUsers: builder.query({ query: () => "users/" }),
     updatePassword: builder.mutation({
       query: (initial) => ({
         url: `password/change`,
@@ -36,30 +22,11 @@ export const userAPI = createApi({
         body: initial,
       }),
     }),
-    updateCompanyProfile: builder.mutation({
-      query: (initial) => ({
-        url: `company/${initial.id}`,
-        method: "PATCH",
-        body: initial,
-      }),
-    }),
-    generateTransactionID: builder.mutation({
-      query: (initial) => ({
-        url: `transaction`,
-        method: "POST",
-        body: initial,
-      }),
-    }),
   }),
 });
 
 export const {
-  useGetUserQuery,
+  useGetUsersQuery,
   useGetMyAccountQuery,
-  useGetCountryQuery,
-  useGetStateQuery,
-  useUpdateUserMutation,
   useUpdatePasswordMutation,
-  useGetNonFreeSubscriptionQuery,
-  useUpdateCompanyProfileMutation,
 } = userAPI;

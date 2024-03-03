@@ -1,8 +1,12 @@
 import { Box, Grid, Stack, Typography } from "@mui/material";
-import { Button, PageTitle } from "ontribe-admin-storybook";
+import { Button, Modal, PageTitle } from "ontribe-admin-storybook";
 import { Add, Bag2 } from "iconsax-react";
+import React from "react";
+import CreateCategoryForm from "./forms/CreateCategoryForm";
 
 const Index = () => {
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+
   return (
     <Grid container my={5}>
       <Grid item lg={12} md={12} p={1}>
@@ -10,6 +14,7 @@ const Index = () => {
           firstComponent={<Typography>Category</Typography>}
           secondComponent={
             <Button
+              onClick={() => setIsModalOpen(true)}
               variant="contained"
               color="primary"
               startIcon={<Add color="white" variant="Outline" />}
@@ -52,6 +57,14 @@ const Index = () => {
               New Category
             </Button>
           </Stack>
+          <Modal
+            
+            title={<Typography>Add Category</Typography>}
+            open={isModalOpen}
+            size="xs"
+            handleClose={() => setIsModalOpen(false)}
+            content={<CreateCategoryForm />}
+          />{" "}
         </Stack>
       </Grid>
     </Grid>

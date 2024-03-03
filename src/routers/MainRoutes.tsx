@@ -26,10 +26,7 @@ const MainRoutes = {
     {
       path: "/",
       element: (
-        <ProtectedRoute>
-          {" "}
           <Layout />
-        </ProtectedRoute>
       ),
       children: [
         {

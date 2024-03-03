@@ -7,6 +7,7 @@ import { useLoginMutation } from "../../services/authenticationAPI";
 import UserContext from "../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import React from "react";
+import { IAdmin } from "../../types/IAdmin";
 
 const Login = () => {
   const [login] = useLoginMutation();
@@ -57,19 +58,20 @@ const Login = () => {
             validationSchema={LoginSchema}
             onSubmit={(values, { setSubmitting }) => {
               try {
-                // highlight-next-line
                 const data = {
-                  username: values.email,
+                  email: values.email,
                   password: values.password,
                 };
 
                 const response = login(data).unwrap();
                 response.then((res) => {
-                  console.log(res);
-                  localStorage.removeItem("access");
-                  localStorage.setItem("access", res.access);
-                  refetch();
-                  navigate("/");
+                  const data: IAdmin = res.data;
+                  if (data.role === "admin") {
+                    localStorage.removeItem("access");
+                    localStorage.setItem("access", data.accessToken);
+                    refetch();
+                    navigate("/dashboard");
+                  }
                 });
                 response.catch((err) => {
                   console.log(err);
@@ -78,8 +80,7 @@ const Login = () => {
                   setTimeout(() => setSubmitting(false), 3000);
                 });
               } catch (err: any) {
-                const msg =
-                  "Fail to login because of this reason:" + err.message;
+                console.log(err);
               }
             }}
           >
