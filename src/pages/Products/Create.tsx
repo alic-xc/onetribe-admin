@@ -84,13 +84,7 @@ const Create = () => {
                 value=""
                 menuItems={[{ title: "Category", value: "no" }]}
               />
-              <SelectInput
-                title="Sub Category"
-                name="name"
-                size="small"
-                value=""
-                menuItems={[{ title: "Category", value: "no" }]}
-              />
+
               <SelectInput
                 title="Pattern Available"
                 name="name"
@@ -98,10 +92,20 @@ const Create = () => {
                 value=""
                 menuItems={[{ title: "Category", value: "no" }]}
               />
+              <SelectInput
+                title="Gender"
+                name="gender"
+                size="small"
+                value=""
+                menuItems={[
+                  { title: "Male", value: "male" },
+                  { title: "Female", value: "female" },
+                ]}
+              />
               <TextInput
-                title="Product Price For Size 6-12"
-                name="name"
-                placeholder="Product Price For Size 6-12"
+                title="Price"
+                name="price"
+                placeholder="price"
                 size="small"
                 value=""
               />
@@ -112,22 +116,6 @@ const Create = () => {
                 size="small"
                 value=""
               />
-              <TextInput
-                title="Product Price For Size 12-24"
-                name="name"
-                placeholder="Product Price For Size 12-24"
-                size="small"
-                value=""
-              />
-              <TextInput
-                title="Quantity"
-                name="name"
-                placeholder="Quantity in Stock"
-                size="small"
-                value=""
-              />
-              <Switch name="" title="Add Discount" color="primary" size="small" />
-              <Switch name="" title="Add Expiry Date" color="primary" size="small" />
             </Stack>
           </Grid>
           <Grid item lg={6} md={6}>

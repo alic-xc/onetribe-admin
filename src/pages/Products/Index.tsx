@@ -46,7 +46,6 @@ interface ProductsResponse {
 
 const Index = () => {
   const { data, isLoading } = useGetProductsQuery({});
-  console.log(data);
   const products: ProductsResponse = data;
   const navigate = useNavigate();
   const containerSx: SxProps = { border: "none" };
