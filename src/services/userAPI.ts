@@ -14,7 +14,10 @@ export const userAPI = createApi({
   }),
   endpoints: (builder) => ({
     getMyAccount: builder.query({ query: () => "users/me" }),
-    getUsers: builder.query({ query: () => "users/" }),
+    getCustomers: builder.query({ query: () => "users/" }),
+    getCustomerDetails: builder.query({
+      query: (params) => `users/${params.id}`,
+    }),
     updatePassword: builder.mutation({
       query: (initial) => ({
         url: `password/change`,
@@ -26,7 +29,8 @@ export const userAPI = createApi({
 });
 
 export const {
-  useGetUsersQuery,
+  useGetCustomerDetailsQuery,
+  useGetCustomersQuery,
   useGetMyAccountQuery,
   useUpdatePasswordMutation,
 } = userAPI;

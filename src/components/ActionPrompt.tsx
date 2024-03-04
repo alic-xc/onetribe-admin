@@ -3,7 +3,7 @@ import { Button, Modal } from "ontribe-admin-storybook";
 import React from "react";
 
 interface ActionPrompt {
-  title?: "";
+  title?: string;
   message: string;
   isOpen: boolean;
   onContinue?: () => void;
@@ -16,17 +16,22 @@ const ActionPrompt = (props: ActionPrompt) => {
   }, [props.isOpen]);
 
   const actionButtons = (
-    <Stack direction="row">
+    <Stack direction="row" flex={1} gap={2}>
       {" "}
       <Button
+        variant="contained"
+        sx={{ p: 1, width: "50%" }}
         onClick={() => {
-          props?.onContinue;
+          props?.onContinue && props?.onContinue();
           setIsModalOpen(false);
         }}
       >
         Continue
       </Button>{" "}
       <Button
+        variant="contained"
+        color="error"
+        sx={{ p: 1, width: "50%" }}
         onClick={() => {
           setIsModalOpen(false);
         }}
@@ -42,7 +47,7 @@ const ActionPrompt = (props: ActionPrompt) => {
       size="xs"
       content={
         <Stack>
-          <Typography>{props.message}</Typography>
+          <Typography mb={3}>{props.message}</Typography>
           {actionButtons}
         </Stack>
       }

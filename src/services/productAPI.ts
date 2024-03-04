@@ -13,47 +13,28 @@ export const productAPI = createApi({
     },
   }),
   endpoints: (builder) => ({
+    getProducts: builder.query({ query: () => "fashorg/products" }),
     getCategories: builder.query({ query: () => "fashorg/categories" }),
-    getSubCategories: builder.query({ query: () => "users/" }),
     createCategory: builder.mutation({
       query: (initial) => ({
-        url: `fashorg/categories/`,
+        url: `fashorg/admin/categories/`,
         method: "POST",
         body: initial,
       }),
     }),
-    createSubCategory: builder.mutation({
-      query: (initial) => ({
-        url: `password/change`,
-        method: "PATCH",
-        body: initial,
-      }),
-    }),
+
     updateCategory: builder.mutation({
       query: (initial) => ({
-        url: `password/change`,
+        url: `fashorg/admin/categories/${initial.id}`,
         method: "PATCH",
         body: initial,
       }),
     }),
-    updateSubCategory: builder.mutation({
-      query: (initial) => ({
-        url: `password/change`,
-        method: "PATCH",
-        body: initial,
-      }),
-    }),
+
     deleteCategory: builder.mutation({
       query: (initial) => ({
-        url: `password/change`,
-        method: "PATCH",
-        body: initial,
-      }),
-    }),
-    deleteSubCategory: builder.mutation({
-      query: (initial) => ({
-        url: `password/change`,
-        method: "PATCH",
+        url: `fashorg/admin/categories/${initial.id}`,
+        method: "DELETE",
         body: initial,
       }),
     }),
@@ -61,12 +42,9 @@ export const productAPI = createApi({
 });
 
 export const {
+  useGetProductsQuery,
   useGetCategoriesQuery,
-  useGetSubCategoriesQuery,
   useCreateCategoryMutation,
-  useCreateSubCategoryMutation,
   useUpdateCategoryMutation,
-  useUpdateSubCategoryMutation,
   useDeleteCategoryMutation,
-  useDeleteSubCategoryMutation,
 } = productAPI;

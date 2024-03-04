@@ -4,11 +4,8 @@ import { Button, PageTitle, Widget } from "ontribe-admin-storybook";
 import {
   Add,
   Bag2,
-  BagCross,
   BagCross1,
   BoxAdd,
-  Money,
-  ShoppingCart,
 } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
 

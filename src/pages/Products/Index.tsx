@@ -3,6 +3,8 @@ import { Box, Grid, Stack, SxProps, Typography } from "@mui/material";
 import { Button, PageTitle, Widget } from "ontribe-admin-storybook";
 import { Add, Bag2, BoxAdd, Money } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
+import EmptyUI from "../../components/EmptyUI";
+import { useGetProductsQuery } from "../../services/productAPI";
 
 interface Item {
   containerSx: SxProps;
@@ -16,7 +18,36 @@ type Items = {
   secondaryValue?: string;
 };
 
+interface Color {
+  name: string;
+  _id: string;
+}
+
+interface Product {
+  _id: string;
+  name: string;
+  slug: string;
+  description: string;
+  images: string[];
+  stockQuantity: number;
+  availableColors: Color[];
+  availableSizes: string[];
+  shippingPrice: number | null;
+  price: number;
+  category: string;
+  gender?: string;
+  __v: number;
+}
+
+interface ProductsResponse {
+  status: string;
+  data: Product[];
+}
+
 const Index = () => {
+  const { data, isLoading } = useGetProductsQuery({});
+  console.log(data);
+  const products: ProductsResponse = data;
   const navigate = useNavigate();
   const containerSx: SxProps = { border: "none" };
   const primaryWidgets: Item[] = [
@@ -68,38 +99,27 @@ const Index = () => {
       ))}
 
       <Grid item lg={12} p={1}>
-        <Stack
-          width="100%"
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          height={600}
-          bgcolor="white"
-        >
-          <Stack
-            width="200px"
-            direction="column"
-            alignItems="center"
-            spacing={2}
-          >
-            <Box>
-              <Bag2 size={32} color="black" />
-            </Box>
-            <Typography fontSize={20} fontWeight={500}>
-              No Product Yet?
-            </Typography>
-            <Typography fontSize={14}>
-              Add products to your store and start selling to see orders here.
-            </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Add color="white" variant="Outline" />}
-            >
-              New Product
-            </Button>
-          </Stack>
-        </Stack>
+        {(isLoading || products?.data?.length < 1) && (
+          <EmptyUI
+            content="No Products Yet?"
+            icon={<Bag2 size={32} color="black" />}
+            secondaryContent={
+              <>
+                <Typography fontSize={14}>
+                  Add products to your store and start selling to see orders
+                  here.
+                </Typography>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<Add color="white" variant="Outline" />}
+                >
+                  New Product
+                </Button>
+              </>
+            }
+          />
+        )}
       </Grid>
     </Grid>
   );

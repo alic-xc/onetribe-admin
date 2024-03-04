@@ -2,27 +2,41 @@ import { Stack } from "@mui/material";
 import { Form, Formik } from "formik";
 import { Button, TextInput } from "ontribe-admin-storybook";
 import { CategorySchema } from "../../../schemas/CategorySchema";
-import { useCreateCategoryMutation } from "../../../services/productAPI";
+import {
+  useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+} from "../../../services/productAPI";
+import { Category } from "../Index";
 
 interface CreateCategoryFormProps {
   callback?: () => void;
+  data?: Category;
+  action?: string;
 }
 const CreateCategoryForm = (props: CreateCategoryFormProps) => {
   const [createCategory] = useCreateCategoryMutation();
+  const [updateCategory] = useUpdateCategoryMutation();
+  console.log(props.data?.name);
   return (
     <Formik
       initialValues={{
-        name: "",
+        name: props.data?.name || "",
       }}
+      enableReinitialize={true}
       validationSchema={CategorySchema}
       onSubmit={(values, { setSubmitting }) => {
         try {
-          const data = {
+          let response;
+          const data: any = {
             name: values.name,
           };
-          const response = createCategory(data).unwrap();
-          response.then((res) => {
-            console.log(res);
+          if (props.action === "edit") {
+            data["id"] = props.data?._id;
+            response = updateCategory(data).unwrap();
+          } else {
+            response = createCategory(data).unwrap();
+          }
+          response.then(() => {
             props.callback && props.callback();
           });
           response.catch((err) => {

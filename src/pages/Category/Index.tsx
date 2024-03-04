@@ -9,9 +9,14 @@ import {
 import { Add, Bag2 } from "iconsax-react";
 import React from "react";
 import CreateCategoryForm from "./forms/CreateCategoryForm";
-import { useGetCategoriesQuery } from "../../services/productAPI";
+import {
+  useGetCategoriesQuery,
+  useDeleteCategoryMutation,
+} from "../../services/productAPI";
+import { FaTrash, FaPen } from "react-icons/fa";
+import ActionPrompt from "../../components/ActionPrompt";
 
-interface Category {
+export interface Category {
   _id: string;
   name: string;
   slug: string;
@@ -24,10 +29,61 @@ interface CategoryResponse {
   data: Category[];
 }
 
+interface ActionProps {
+  data: Category;
+}
+
 const Index = () => {
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+  const [currentData, setCurrentData] = React.useState<Category | undefined>(
+    undefined
+  );
+  const [action, setAction] = React.useState<string>("");
   const { data, refetch } = useGetCategoriesQuery({});
+  const [deleteCategory] = useDeleteCategoryMutation();
   const categories: CategoryResponse = data;
+
+  const deleteCategoryHandler = () => {
+    try {
+      const data = {
+        id: currentData?._id,
+      };
+      const response = deleteCategory(data).unwrap();
+      response.then(() => {
+        setCurrentData(undefined);
+        setAction("");
+        refetch();
+      });
+      response.catch((err) => {
+        console.log(err);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const Action = (props: ActionProps) => {
+    return (
+      <Stack direction="row">
+        <IconButton
+          onClick={() => {
+            setCurrentData(props.data);
+            setAction("edit");
+          }}
+        >
+          <FaPen size={16} />
+        </IconButton>
+        <IconButton
+          onClick={() => {
+            setCurrentData(props.data);
+            setAction("delete");
+          }}
+        >
+          <FaTrash size={16} color="red" />
+        </IconButton>
+      </Stack>
+    );
+  };
 
   const columns = [
     {
@@ -47,17 +103,9 @@ const Index = () => {
     return {
       // id: item._id,
       name: item.name,
-      action: "",
+      action: <Action data={item} />,
     };
   });
-
-  const action = () => {
-    return (
-      <Stack>
-        <IconButton></IconButton>
-      </Stack>
-    );
-  };
 
   const NoDataUI = (
     <Stack
@@ -86,13 +134,6 @@ const Index = () => {
           New Category
         </Button>
       </Stack>
-      <Modal
-        title={<Typography>Add Category</Typography>}
-        open={isModalOpen}
-        size="xs"
-        handleClose={() => setIsModalOpen(false)}
-        content={<CreateCategoryForm callback={() => refetch()} />}
-      />{" "}
     </Stack>
   );
 
@@ -128,11 +169,46 @@ const Index = () => {
                 isDisabledSelection={false}
                 isPagination={true}
                 isSearch={true}
-                
               />
             }
           ></Card>
         )}
+        <Modal
+          title={<Typography>Add Category</Typography>}
+          open={isModalOpen}
+          size="xs"
+          handleClose={() => setIsModalOpen(false)}
+          content={
+            <CreateCategoryForm
+              callback={() => {
+                refetch();
+                setAction("");
+              }}
+            />
+          }
+        />{" "}
+        <Modal
+          title={<Typography>Edit Category</Typography>}
+          open={action === "edit" ? true : false}
+          size="xs"
+          handleClose={() => setAction("")}
+          content={
+            <CreateCategoryForm
+              action={action}
+              data={currentData}
+              callback={() => {
+                refetch();
+                setAction("");
+              }}
+            />
+          }
+        />
+        <ActionPrompt
+          title="Delete Category"
+          message="Do you want to continue?"
+          isOpen={action === "delete" ? true : false}
+          onContinue={() => deleteCategoryHandler()}
+        />
       </Grid>
     </Grid>
   );
