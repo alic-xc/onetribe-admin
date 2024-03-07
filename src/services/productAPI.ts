@@ -22,7 +22,13 @@ export const productAPI = createApi({
         body: initial,
       }),
     }),
-
+    createProduct: builder.mutation({
+      query: (initial) => ({
+        url: `fashorg/admin/products`,
+        method: "POST",
+        body: initial,
+      }),
+    }),
     updateCategory: builder.mutation({
       query: (initial) => ({
         url: `fashorg/admin/categories/${initial.id}`,
@@ -45,6 +51,7 @@ export const {
   useGetProductsQuery,
   useGetCategoriesQuery,
   useCreateCategoryMutation,
+  useCreateProductMutation,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
 } = productAPI;
